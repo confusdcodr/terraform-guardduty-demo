@@ -31,3 +31,7 @@ db_attributes = [
       type = "S"
     },
   ]
+
+environment = "guardduty-demo"
+# uncomment to enable ssh access to the 'dirty' instances
+# key_pair_name = "some_key"
