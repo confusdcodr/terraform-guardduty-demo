@@ -22,3 +22,5 @@ EC2 instance
 
 - [ ] convert app server to tf
 - [ ] convert malicious instance to tf
+- [ ] add configurable functionality to the malicious instance
+- [ ] add cloudwatch alarms and sns topics for 'spending guard'
