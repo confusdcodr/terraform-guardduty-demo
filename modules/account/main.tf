@@ -20,4 +20,5 @@ module "malicious_instance" {
 
   resource_name             = "${var.resource_name}"
   create_malicious_instance = "${var.create_malicious_instance}"
+  instance_type             = "t2.micro"
 }
