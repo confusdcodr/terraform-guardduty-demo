@@ -1,0 +1,14 @@
+{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": [
+          "ssm:GetParameter",
+          "ssm:GetParameters",
+          "ssm:DescribeParameters"
+        ],
+        "Effect": "Allow",
+        "Resource": "arn:aws:ssm:${aws_region}${account_id}*"
+      }
+    ]
+  }
