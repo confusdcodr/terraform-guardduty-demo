@@ -13,7 +13,13 @@ resource "aws_iam_access_key" "compromised" {
   user = "${aws_iam_user.compromised.name}"
 }
 
+resource "aws_iam_user_policy" "compromised" {
+  user = "${aws_iam_user.compromised.id}"
+  policy = "${data.template_file.compromised.rendered}"
+}
+
 data "aws_region" "current" {}
+
 data "aws_caller_identity" "current" {}
 
 data "template_file" "compromised" {
@@ -23,8 +29,4 @@ data "template_file" "compromised" {
     aws_region = "${data.aws_region.current.name}"
     account_id = "${data.aws_caller_identity.current.account_id}"
   }
-}
-
-resource "aws_iam_user_policy" "compromised" {
-  policy = "${data.template_file.compromised.rendered}"
 }
