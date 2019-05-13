@@ -121,7 +121,7 @@ data "aws_ami" "amazon_linux" {
 # format the instance userdata
 
 data "template_file" "userdata" {
-  template = "${file("user_data.tpl")}"
+  template = "${file("modules/simulations/malicious_instance/user_data.tpl")}"
 
   vars = {
     target_region = "${data.aws_region.current.name}"

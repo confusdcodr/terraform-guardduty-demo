@@ -3,8 +3,8 @@ terragrunt = {
     backend = "s3"
 
     config {
-      region         = "${get_env("AWS_DEFAULT_REGION", "")}"
-      # profile        = "summer-intern-proj"
+      region         = "us-east-1"
+      #profile        = "intern"
       bucket         = "guardduty-demo"
       key            = "tfstate/${path_relative_to_include()}/terraform.tfstate"
       encrypt        = false
@@ -13,25 +13,30 @@ terragrunt = {
   }
 
   terraform {
-    source = "modules/account/"
+    source = "modules/account"
   }
 }
+
+## all submodules
+region = "us-east-1"
+create_exceptions_table = true
+create_malicious_user = true
+resource_name = "testing"
+environment = "guardduty-demo"
 
 tags = {
     Project = "Guardduty Demo"
 }
 
+## remediation_db module
+table_name = "ir_exceptions"
 db_attributes = [
-    {
-      name = "rule"
-      type = "S"
-    },
-    {
-      name = "account_id"
-      type = "S"
-    },
-  ]
-
-environment = "guardduty-demo"
-# uncomment to enable ssh access to the 'dirty' instances
-# key_pair_name = "some_key"
+  {
+    name = "rule"
+    type = "S"
+  },
+  {
+    name = "account_id"
+    type = "S"
+  },
+]

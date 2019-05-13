@@ -17,7 +17,7 @@ data "aws_region" "current" {}
 data "aws_caller_identity" "current" {}
 
 data "template_file" "compromised" {
-  template = "${file("compromised.policy")}"
+  template = "${file("modules/simulations/malicious_iam_user/compromised.json")}"
 
   vars = {
     aws_region = "${data.aws_region.current.name}"

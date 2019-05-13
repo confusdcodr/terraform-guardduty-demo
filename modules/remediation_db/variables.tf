@@ -20,3 +20,7 @@ variable "table_name" {
   type        = "string"
   description = "Name of the table"
 }
+
+variable "region" {
+  type = "string"
+}
