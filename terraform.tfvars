@@ -20,7 +20,8 @@ terragrunt = {
 ## all submodules
 region = "us-east-1"
 create_exceptions_table = true
-create_malicious_user = true
+create_malicious_user = false
+create_malicious_instance = false
 resource_name = "testing"
 environment = "guardduty-demo"
 
