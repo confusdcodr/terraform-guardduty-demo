@@ -25,3 +25,19 @@ variable "create_malicious_instance" {
   type    = "string"
   default = "false"
 }
+
+variable "resource_name" {
+  type = "string"
+}
+
+variable "create_exceptions_table" {
+  type = "string"
+}
+
+variable "table_name" {
+  type = "string"
+}
+
+variable "region" {
+  type = "string"
+}

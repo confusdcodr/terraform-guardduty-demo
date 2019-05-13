@@ -1,6 +1,6 @@
 locals {
   additional_tags = {
-    Descirption = "Table to hold Guard Duty Exceptions"
+    Description = "Table to hold Guard Duty Exceptions"
   }
 }
 
