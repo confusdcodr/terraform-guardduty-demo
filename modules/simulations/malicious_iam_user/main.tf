@@ -5,15 +5,21 @@ locals {
 }
 
 resource "aws_iam_user" "compromised" {
+  count = "${var.create_malicious_user? 1 : 0}"
+
   name = "${var.resource_name}-Compromised-Simulated"
   tags = "${local.tags}"
 }
 
 resource "aws_iam_access_key" "compromised" {
+  count = "${var.create_malicious_user? 1 : 0}"
+
   user = "${aws_iam_user.compromised.name}"
 }
 
 resource "aws_iam_user_policy" "compromised" {
+  count = "${var.create_malicious_user? 1 : 0}"
+  
   user = "${aws_iam_user.compromised.id}"
   policy = "${data.template_file.compromised.rendered}"
 }
