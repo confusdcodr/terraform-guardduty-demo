@@ -10,7 +10,7 @@ terraform {
 locals {
   create_exceptions_table   = true
   create_malicious_user     = true
-  create_malicious_instance = false
+  create_malicious_instance = true
   create_cloudtrail         = true
   create_vpc_flow_logs      = true
 
