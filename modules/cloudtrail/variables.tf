@@ -5,5 +5,5 @@ variable "project_name" {
 
 variable "create_cloudtrail" {
   type    = "string"
-  default = true
+  default = false
 }

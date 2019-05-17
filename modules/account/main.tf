@@ -9,8 +9,8 @@ terraform {
 
 locals {
   create_exceptions_table   = true
-  create_malicious_user     = false
-  create_malicious_instance = false
+  create_malicious_user     = true
+  create_malicious_instance = true
   create_cloudtrail         = true
   create_vpc_flow_logs      = true
 
@@ -44,7 +44,7 @@ module "db" {
 }
 
 module "malicious_user" {
-  source = "modules/simulations/malicious_iam_user"
+  source = "modules/simulations/malicious_user"
 
   resource_name         = "${var.resource_name}"
   create_malicious_user = "${local.create_malicious_user}"

@@ -5,7 +5,7 @@ variable "project_name" {
 
 variable "create_vpc_flow_logs" {
   type    = "string"
-  default = true
+  default = false
 }
 
 variable "vpc_id" {
