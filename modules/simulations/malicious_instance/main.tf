@@ -15,21 +15,21 @@ locals {
 }
 
 resource "tls_private_key" "this" {
-  count = "${local.key_pair_specified ? 1 : 0}"
+  count = "${var.create_malicious_instance && local.key_pair_specified ? 1 : 0}"
 
   algorithm = "RSA"
   rsa_bits  = "4096"
 }
 
 resource "aws_key_pair" "this" {
-  count = "${local.key_pair_specified ? 1 : 0}"
+  count = "${var.create_malicious_instance && local.key_pair_specified ? 1 : 0}"
 
   key_name   = "${local.generated_key_pair_name}"
   public_key = "${tls_private_key.this.public_key_openssh}"
 }
 
 resource "local_file" "private_key" {
-  count = "${local.key_pair_write ? 1 : 0}"
+  count = "${var.create_malicious_instance && local.key_pair_write ? 1 : 0}"
 
   content  = "${tls_private_key.this.private_key_pem}"
   filename = "${path.module}/${var.resource_name}.pem"
@@ -43,34 +43,6 @@ resource "null_resource" "chmod_key" {
   provisioner "local-exec" {
     command = "chmod 600 ${local.key_pair_path}/${local.generated_key_pair_name}.pem"
   }
-}
-
-data "aws_region" "current" {}
-
-# create the instance profile
-
-data "template_file" "policy" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  template = "${file("iam/policy.json")}"
-}
-
-data "aws_iam_policy_document" "policy" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  source_json = "${data.template_file.policy.rendered}"
-}
-
-data "template_file" "trust" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  template = "${file("iam/trust.json")}"
-}
-
-data "aws_iam_policy_document" "trust" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  source_json = "${data.template_file.trust.rendered}"
 }
 
 resource "aws_iam_role" "this" {
@@ -98,8 +70,20 @@ resource "aws_iam_instance_profile" "this" {
   role = "${aws_iam_role.this.id}"
 }
 
-# get the latest amazon linux AMI
+# create the instance
+resource "aws_instance" "compromised" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
 
+  ami                  = "${data.aws_ami.amazon_linux.id}"
+  instance_type        = "${var.instance_type}"
+  private_ip           = "${var.private_ip}"
+  user_data            = "${data.template_file.userdata.rendered}"
+  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
+}
+
+data "aws_region" "current" {}
+
+# get the latest amazon linux AMI
 data "aws_ami" "amazon_linux" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
@@ -118,8 +102,20 @@ data "aws_ami" "amazon_linux" {
   owners = ["amazon"]
 }
 
-# format the instance userdata
+data "template_file" "trust" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
 
+  template = "${file("modules/simulations/malicious_instance/iam/trust.json")}"
+}
+
+# create the instance profile
+data "template_file" "policy" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
+
+  template = "${file("modules/simulations/malicious_instance/iam/policy.json")}"
+}
+
+# format the instance userdata
 data "template_file" "userdata" {
   template = "${file("modules/simulations/malicious_instance/user_data.tpl")}"
 
@@ -128,16 +124,16 @@ data "template_file" "userdata" {
   }
 }
 
-# create the instance
-
-resource "aws_instance" "compromised" {
+data "aws_iam_policy_document" "trust" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
-  ami                  = "${data.aws_ami.amazon_linux.id}"
-  instance_type        = "${var.instance_type}"
-  private_ip           = "${var.private_ip}"
-  user_data            = "${data.template_file.userdata.rendered}"
-  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
+  source_json = "${data.template_file.trust.rendered}"
+}
+
+data "aws_iam_policy_document" "policy" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
+
+  source_json = "${data.template_file.policy.rendered}"
 }
 
 # "MaliciousInstance": {
