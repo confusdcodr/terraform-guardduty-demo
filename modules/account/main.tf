@@ -8,18 +8,28 @@ terraform {
 }
 
 locals {
-  create_exceptions_table = true
-  create_malicious_user = false
+  create_exceptions_table   = true
+  create_malicious_user     = false
   create_malicious_instance = false
+  create_cloudtrail         = true
+  create_vpc_flow_logs      = true
 
-  create_cloudtrail = true
+  vpc_id = "vpc-9241cef5"
 }
 
 module "cloudtrail" {
   source = "modules/cloudtrail"
 
   create_cloudtrail = "${local.create_cloudtrail}"
-  project_name = "${var.project_name}"
+  project_name      = "${var.project_name}"
+}
+
+module "vpc_flow_logs" {
+  source = "modules/vpc_flow_logs"
+
+  create_vpc_flow_logs = "${local.create_vpc_flow_logs}"
+  project_name         = "${var.project_name}"
+  vpc_id               = "${local.vpc_id}"
 }
 
 module "db" {
