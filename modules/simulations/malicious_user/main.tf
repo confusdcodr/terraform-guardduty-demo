@@ -19,8 +19,8 @@ resource "aws_iam_access_key" "compromised" {
 
 resource "aws_iam_user_policy" "compromised" {
   count = "${var.create_malicious_user? 1 : 0}"
-  
-  user = "${aws_iam_user.compromised.id}"
+
+  user   = "${aws_iam_user.compromised.id}"
   policy = "${data.template_file.compromised.rendered}"
 }
 

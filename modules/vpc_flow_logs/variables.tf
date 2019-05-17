@@ -3,7 +3,11 @@ variable "project_name" {
   default = "guardduty-demo"
 }
 
-variable "create_cloudtrail" {
+variable "create_vpc_flow_logs" {
   type    = "string"
   default = true
+}
+
+variable "vpc_id" {
+  type = "string"
 }
