@@ -8,7 +8,7 @@ resource "aws_iam_user" "compromised" {
   count = "${var.create_malicious_user? 1 : 0}"
 
   name = "${var.resource_name}-Compromised-Simulated"
-  tags = "${local.tags}"
+  permissions_boundary = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
 }
 
 resource "aws_iam_access_key" "compromised" {
