@@ -8,7 +8,12 @@
           "ssm:DescribeParameters"
         ],
         "Effect": "Allow",
-        "Resource": "arn:aws:ssm:${aws_region}${account_id}*"
+        "Resource": "arn:aws:ssm:${aws_region}${account_id}*",
+        "Condition": {
+          "StringEquals": {
+            "iam:PermissionsBoundary": "arn:aws:iam::${account_id}:policy/P3PowerUserAccess"
+          }
+        }
       }
     ]
   }
