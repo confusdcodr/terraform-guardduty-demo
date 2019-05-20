@@ -54,7 +54,7 @@ resource "aws_iam_role" "this" {
   force_detach_policies = true
   max_session_duration  = "43200"
   tags                  = "${local.tags}"
-  permissions_boundary = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  permissions_boundary  = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
 }
 
 resource "aws_iam_policy" "this" {

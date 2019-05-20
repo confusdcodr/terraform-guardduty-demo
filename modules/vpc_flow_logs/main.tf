@@ -5,8 +5,8 @@ resource "aws_s3_bucket" "this" {
 }
 
 resource "aws_flow_log" "this" {
-  count                = "${var.create_vpc_flow_logs ? 1 : 0}"
-  
+  count = "${var.create_vpc_flow_logs ? 1 : 0}"
+
   traffic_type         = "ALL"
   vpc_id               = "${var.vpc_id}"
   log_destination_type = "s3"

@@ -61,5 +61,5 @@ module "malicious_instance" {
 module "guard_duty" {
   source = "modules/guard_duty"
 
-  resource_name             = "${var.project_name}"
+  project_name = "${var.project_name}"
 }

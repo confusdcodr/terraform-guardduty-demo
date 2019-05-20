@@ -1,9 +1,10 @@
 resource "aws_guardduty_detector" "this" {
-  enable = true
+  enable                       = true
   finding_publishing_frequency = "ONE_HOUR"
 }
+
 resource "aws_s3_bucket" "this" {
-  acl = "private"
+  acl    = "private"
   bucket = "${var.project_name}-ipset"
 }
 
@@ -21,4 +22,3 @@ resource "aws_guardduty_ipset" "this" {
   location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
   name        = "MyIPSet"
 }
-
