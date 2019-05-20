@@ -57,3 +57,9 @@ module "malicious_instance" {
   create_malicious_instance = "${local.create_malicious_instance}"
   instance_type             = "t2.micro"
 }
+
+module "guard_duty" {
+  source = "modules/guard_duty"
+
+  resource_name             = "${var.project_name}"
+}
