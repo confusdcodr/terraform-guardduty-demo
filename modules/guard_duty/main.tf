@@ -12,13 +12,13 @@ resource "aws_s3_bucket_object" "this" {
   acl     = "public-read"
   content = "10.0.0.0/8\n"
   bucket  = "${aws_s3_bucket.this.id}"
-  key     = "MyIPSet"
+  key     = "MyThreatIntelSet"
 }
 
-resource "aws_guardduty_ipset" "this" {
+resource "aws_guardduty_threatintelset" "this" {
   activate    = true
-  detector_id = "${aws_guardduty_detector.master.id}"
+  detector_id = "${aws_guardduty_detector.this.id}"
   format      = "TXT"
   location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
-  name        = "MyIPSet"
+  name        = "MyThreatIntelSet"
 }

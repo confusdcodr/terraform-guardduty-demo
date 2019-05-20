@@ -11,10 +11,12 @@ locals {
   create_exceptions_table   = true
   create_malicious_user     = true
   create_malicious_instance = true
+  create_app_server         = true
   create_cloudtrail         = true
   create_vpc_flow_logs      = true
 
-  vpc_id = "vpc-9241cef5"
+  vpc_id        = "vpc-9241cef5"
+  key_pair_name = "gowens-intern"
 }
 
 module "cloudtrail" {
@@ -56,6 +58,16 @@ module "malicious_instance" {
   resource_name             = "${var.resource_name}"
   create_malicious_instance = "${local.create_malicious_instance}"
   instance_type             = "t2.micro"
+  key_pair_name             = "${local.key_pair_name}"
+}
+
+module "app_server" {
+  source = "modules/simulations/app_server"
+
+  resource_name     = "${var.resource_name}"
+  create_app_server = "${local.create_app_server}"
+  instance_type     = "t2.micro"
+  key_pair_name     = "${local.key_pair_name}"
 }
 
 module "guard_duty" {
