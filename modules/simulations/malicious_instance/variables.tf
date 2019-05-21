@@ -42,7 +42,7 @@ variable "security_group_id" {
   default     = ""
 }
 
-variable "resource_name" {
+variable "project_name" {
   type = "string"
 }
 

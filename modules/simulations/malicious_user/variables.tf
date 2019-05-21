@@ -3,6 +3,6 @@ variable "create_malicious_user" {
   default = "false"
 }
 
-variable "resource_name" {
+variable "project_name" {
   type = "string"
 }
