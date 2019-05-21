@@ -1,4 +1,4 @@
-variable "create_app_server" {
+variable "create_app_server_linux" {
   description = "boolean that controls the creation of the malicious instance"
   default     = false
 }
@@ -31,12 +31,14 @@ variable "private_ip" {
   default     = ""
 }
 
-variable "security_group_id" {
-  type        = "string"
-  description = "target security group for the app server instance"
-  default     = ""
+variable "project_name" {
+  type = "string"
 }
 
-variable "resource_name" {
+variable "vpc_id" {
+  type = "string"
+}
+
+variable "cidr_block" {
   type = "string"
 }

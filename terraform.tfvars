@@ -19,7 +19,7 @@ terragrunt = {
 
 ## all submodules
 region = "us-east-1"
-resource_name = "testing"
+project_name = "guardduty-demo"
 environment = "guardduty-demo"
 
 tags = {

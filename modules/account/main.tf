@@ -11,12 +11,14 @@ locals {
   create_exceptions_table   = true
   create_malicious_user     = true
   create_malicious_instance = true
-  create_app_server         = true
+  create_app_server_windows = true
+  create_app_server_linux   = true
   create_cloudtrail         = true
   create_vpc_flow_logs      = true
 
   vpc_id        = "vpc-9241cef5"
   key_pair_name = "gowens-intern"
+  cidr_block = "172.31.0.0/16"
 }
 
 module "cloudtrail" {
@@ -48,26 +50,38 @@ module "db" {
 module "malicious_user" {
   source = "modules/simulations/malicious_user"
 
-  resource_name         = "${var.resource_name}"
+  project_name         = "${var.project_name}"
   create_malicious_user = "${local.create_malicious_user}"
 }
 
 module "malicious_instance" {
   source = "modules/simulations/malicious_instance"
 
-  resource_name             = "${var.resource_name}"
+  project_name             = "${var.project_name}"
   create_malicious_instance = "${local.create_malicious_instance}"
   instance_type             = "t2.micro"
   key_pair_name             = "${local.key_pair_name}"
 }
 
-module "app_server" {
-  source = "modules/simulations/app_server"
+module "app_server_linux" {
+  source = "modules/simulations/app_server_linux"
 
-  resource_name     = "${var.resource_name}"
-  create_app_server = "${local.create_app_server}"
-  instance_type     = "t2.micro"
-  key_pair_name     = "${local.key_pair_name}"
+  project_name           = "${var.project_name}"
+  create_app_server_linux = "${local.create_app_server_linux}"
+  instance_type           = "t2.micro"
+  key_pair_name           = "${local.key_pair_name}"
+  vpc_id                  = "${local.vpc_id}"
+  cidr_block              = "${local.cidr_block}"
+}
+
+module "app_server_windows" {
+  source = "modules/simulations/app_server_windows"
+
+  project_name             = "${var.project_name}"
+  create_app_server_windows = "${local.create_app_server_windows}"
+  instance_type             = "t2.micro"
+  vpc_id                    = "${local.vpc_id}"
+  cidr_block                = "${local.cidr_block}"
 }
 
 module "guard_duty" {
