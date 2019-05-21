@@ -16,10 +16,6 @@ variable "environment" {
   default     = ""
 }
 
-variable "resource_name" {
-  type = "string"
-}
-
 variable "table_name" {
   type = "string"
 }

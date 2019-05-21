@@ -5,7 +5,7 @@
 locals {
   key_pair_specified      = "${var.key_pair_name == ""}"
   key_pair_write          = "${local.key_pair_specified && var.write_private_key}"
-  generated_key_pair_name = "${var.resource_name}-malicious-instance"
+  generated_key_pair_name = "${var.project_name}-malicious-instance"
   key_pair_name           = "${ local.key_pair_specified ? local.generated_key_pair_name : var.key_pair_name }"
   key_pair_path           = "${path.module}/generated"
 
