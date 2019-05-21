@@ -9,10 +9,10 @@ locals {
   key_pair_name           = "${ local.key_pair_specified ? local.generated_key_pair_name : var.key_pair_name }"
   key_pair_path           = "${path.module}/generated"
 
-  tags = {
-    Description = "Malicious"
-  }
+  tags = "${merge(var.tags, map("Description","Malicious"))}"
 }
+
+data "aws_caller_identity" "current" {}
 
 resource "tls_private_key" "this" {
   count = "${var.create_malicious_instance && local.key_pair_specified ? 1 : 0}"
