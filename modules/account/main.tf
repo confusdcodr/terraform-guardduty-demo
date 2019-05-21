@@ -61,14 +61,24 @@ module "malicious_instance" {
   key_pair_name             = "${local.key_pair_name}"
 }
 
-module "app_server" {
-  source = "modules/simulations/app_server"
+
+module "app_server_linux" {
+  source = "modules/simulations/app_server_linux"
 
   resource_name     = "${var.resource_name}"
   create_app_server = "${local.create_app_server}"
   instance_type     = "t2.micro"
   key_pair_name     = "${local.key_pair_name}"
 }
+
+#module "app_server_windows" {
+#  source = "modules/simulations/app_server_windows"
+#
+#  resource_name     = "${var.resource_name}"
+#  create_app_server = "${local.create_app_server}"
+#  instance_type     = "t2.micro"
+#  key_pair_name     = "${local.key_pair_name}"
+#}
 
 module "guard_duty" {
   source = "modules/guard_duty"
