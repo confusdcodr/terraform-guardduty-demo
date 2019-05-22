@@ -62,6 +62,7 @@ module "malicious_instance" {
   instance_type             = "t2.micro"
   key_pair_name             = "${local.key_pair_name}"
   permissions_boundary_arn  = "${var.permissions_boundary_arn}"
+  #depends_on = ["module.app_server_linux", "module.app_server_windows"]
 }
 
 module "app_server_linux" {
@@ -85,8 +86,8 @@ module "app_server_windows" {
   cidr_block                = "${local.cidr_block}"
 }
 
-module "guard_duty" {
-  source = "modules/guard_duty"
-
-  project_name = "${var.project_name}"
-}
+#module "guard_duty" {
+#  source = "modules/guard_duty"
+#
+#  project_name = "${var.project_name}"
+#}

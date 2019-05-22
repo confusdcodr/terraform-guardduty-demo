@@ -66,7 +66,6 @@ resource "aws_instance" "this" {
   ami                  = "${data.aws_ami.this.id}"
   instance_type        = "${var.instance_type}"
   private_ip           = "${var.private_ip}"
-  user_data            = "${data.template_file.userdata.rendered}"
   iam_instance_profile = "${aws_iam_instance_profile.this.name}"
   vpc_security_group_ids = ["${aws_security_group.this.id}"]
 
@@ -104,15 +103,6 @@ data "template_file" "policy" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
   template = "${file("modules/simulations/app_server/iam/policy.json")}"
-}
-
-# format the instance userdata
-data "template_file" "userdata" {
-  template = "${file("modules/simulations/app_server/user_data.tpl")}"
-
-  vars = {
-    target_region = "${data.aws_region.current.name}"
-  }
 }
 
 data "aws_iam_policy_document" "trust" {
