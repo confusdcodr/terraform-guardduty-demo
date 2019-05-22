@@ -1,3 +1,8 @@
+variable "tags" {
+  description = "Map of tags to apply to resources"
+  default     = {}
+}
+
 variable "create_malicious_instance" {
   description = "boolean that controls the creation of the malicious instance"
   default     = false
@@ -39,4 +44,9 @@ variable "security_group_id" {
 
 variable "project_name" {
   type = "string"
+}
+
+variable "permissions_boundary_arn" {
+  type        = "string"
+  description = "ARN of the permissions boundary"
 }

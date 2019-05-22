@@ -61,6 +61,7 @@ module "malicious_instance" {
   create_malicious_instance = "${local.create_malicious_instance}"
   instance_type             = "t2.micro"
   key_pair_name             = "${local.key_pair_name}"
+  permissions_boundary_arn  = "${var.permissions_boundary_arn}"
 }
 
 module "app_server_linux" {

@@ -28,3 +28,8 @@ variable "project_name" {
   type    = "string"
   default = "guardduty-demo"
 }
+
+variable "permissions_boundary_arn" {
+  type        = "string"
+  description = "ARN of the permissions boundary to associate with the Malicious instance"
+}
