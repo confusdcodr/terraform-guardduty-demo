@@ -4,8 +4,8 @@ Terraform AWS Incident Response Sandbox
 
 ## Sources
 
-[amazon-guardduty-tester](https://github.com/awslabs/amazon-guardduty-tester)
-[amazon-guardduty-handson](https://github.com/aws-samples/amazon-guardduty-hands-on)
+- [amazon-guardduty-tester](https://github.com/awslabs/amazon-guardduty-tester)
+- [amazon-guardduty-handson](https://github.com/aws-samples/amazon-guardduty-hands-on)
 
 ## Remediation Actions
 

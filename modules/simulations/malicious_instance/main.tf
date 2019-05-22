@@ -9,10 +9,10 @@ locals {
   key_pair_name           = "${ local.key_pair_specified ? local.generated_key_pair_name : var.key_pair_name }"
   key_pair_path           = "${path.module}/generated"
 
-  tags = {
-    Description = "Malicious"
-  }
+  tags = "${merge(var.tags, map("Description","Malicious"))}"
 }
+
+data "aws_caller_identity" "current" {}
 
 resource "tls_private_key" "this" {
   count = "${var.create_malicious_instance && local.key_pair_specified ? 1 : 0}"
@@ -54,7 +54,7 @@ resource "aws_iam_role" "this" {
   force_detach_policies = true
   max_session_duration  = "43200"
   tags                  = "${local.tags}"
-  permissions_boundary  = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  permissions_boundary  = "${var.permissions_boundary_arn}"
 }
 
 resource "aws_iam_policy" "this" {
@@ -88,9 +88,7 @@ resource "aws_instance" "compromised" {
   iam_instance_profile = "${aws_iam_instance_profile.this.name}"
   key_name             = "${local.key_pair_name}"
 
-  tags = {
-    Type = "Malicious Instance"
-  }
+  tags = "${merge(local.tags, map("Name", "Malicious Instance"))}"
 }
 
 data "aws_region" "current" {}
