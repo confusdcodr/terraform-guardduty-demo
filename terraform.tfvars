@@ -18,7 +18,7 @@ terragrunt = {
   }
 }
 
-create_malicious_iam_user     = false
+create_malicious_iam_user = true
 create_malicious_instance = true
 create_app_server_windows = true
 create_app_server_linux   = true

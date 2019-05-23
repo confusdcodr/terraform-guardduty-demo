@@ -1,6 +1,6 @@
 locals {
   tags = {
-    Description = "App Server Windows"
+    Description = "Windows App Server for use with Guard Duty testing"
   }
 }
 
@@ -69,9 +69,7 @@ resource "aws_instance" "this" {
   iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
   vpc_security_group_ids = ["${aws_security_group.this.id}"]
 
-  tags = {
-    Type = "App Server Windows"
-  }
+  tags = "${merge(local.tags, map("Name", "Windows App Server"))}"
 }
 
 data "aws_region" "current" {}

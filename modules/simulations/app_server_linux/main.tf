@@ -6,7 +6,7 @@ locals {
   key_pair_path           = "${path.module}/generated"
 
   tags = {
-    Description = "App Server Linux"
+    Description = "Linux App Server for use with Guard Duty testing"
   }
 }
 
@@ -129,9 +129,7 @@ resource "aws_instance" "this" {
   key_name               = "${local.key_pair_name}"
   vpc_security_group_ids = ["${aws_security_group.this.id}"]
 
-  tags = {
-    Type = "App Server Linux"
-  }
+  tags = "${merge(local.tags, map("Name", "Linux App Server"))}"
 }
 
 data "aws_region" "current" {}
