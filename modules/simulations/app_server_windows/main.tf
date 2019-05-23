@@ -38,25 +38,6 @@ resource "aws_iam_policy_attachment" "this" {
   policy_arn = "${aws_iam_policy.this.arn}"
 }
 
-resource "aws_security_group" "this" {
-  description = "Allow inbound traffic"
-  vpc_id      = "${var.vpc_id}"
-
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-}
-
 # create the instance
 resource "aws_instance" "this" {
   count = "${var.create_app_server_windows? 1 : 0 }"
@@ -65,7 +46,7 @@ resource "aws_instance" "this" {
   instance_type          = "${var.instance_type}"
   private_ip             = "${var.private_ip}"
   iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
-  vpc_security_group_ids = ["${aws_security_group.this.id}"]
+  vpc_security_group_ids = ["${var.target_sg}"]
 
   tags = "${merge(local.tags, map("Name", "Windows App Server"))}"
 }

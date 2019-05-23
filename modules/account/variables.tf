@@ -39,15 +39,15 @@ variable "create_malicious_iam_user" {
 }
 
 variable "create_malicious_instance" {
-  default = false
+  default = true
 }
 
 variable "create_app_server_windows" {
-  default = false
+  default = true
 }
 
 variable "create_app_server_linux" {
-  default = false
+  default = true
 }
 
 variable "create_cloudtrail" {

@@ -77,20 +77,6 @@ resource "aws_iam_policy_attachment" "this" {
   policy_arn = "${aws_iam_policy.this.arn}"
 }
 
-# create the instance
-resource "aws_instance" "compromised" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  ami                  = "${data.aws_ami.amazon_linux.id}"
-  instance_type        = "${var.instance_type}"
-  private_ip           = "${var.private_ip}"
-  user_data            = "${data.template_file.userdata.rendered}"
-  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
-  key_name             = "${local.key_pair_name}"
-
-  tags = "${merge(local.tags, map("Name", "Malicious Instance"))}"
-}
-
 data "aws_region" "current" {}
 
 # get the latest amazon linux AMI
@@ -144,4 +130,19 @@ data "aws_iam_policy_document" "policy" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
   source_json = "${data.template_file.policy.rendered}"
+}
+
+# create the instance
+resource "aws_instance" "compromised" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
+
+  ami                    = "${data.aws_ami.amazon_linux.id}"
+  instance_type          = "${var.instance_type}"
+  private_ip             = "${var.private_ip}"
+  user_data              = "${data.template_file.userdata.rendered}"
+  iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
+  key_name               = "${local.key_pair_name}"
+  vpc_security_group_ids = ["${var.target_sg}"]
+
+  tags = "${merge(local.tags, map("Name", "Malicious Instance"))}"
 }

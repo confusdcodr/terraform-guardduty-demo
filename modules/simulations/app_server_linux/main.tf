@@ -75,46 +75,6 @@ resource "aws_iam_policy_attachment" "this" {
   policy_arn = "${aws_iam_policy.this.arn}"
 }
 
-resource "aws_security_group" "this" {
-  description = "Allow inbound traffic"
-  vpc_id      = "${var.vpc_id}"
-
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  ingress {
-    from_port   = 5050
-    to_port     = 5050
-    protocol    = "tcp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-}
-
 # create the instance
 resource "aws_instance" "this" {
   count = "${var.create_app_server_linux? 1 : 0 }"
@@ -125,7 +85,7 @@ resource "aws_instance" "this" {
   user_data              = "${data.template_file.userdata.rendered}"
   iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
   key_name               = "${local.key_pair_name}"
-  vpc_security_group_ids = ["${aws_security_group.this.id}"]
+  vpc_security_group_ids = ["${var.target_sg}"]
 
   tags = "${merge(local.tags, map("Name", "Linux App Server"))}"
 }

@@ -55,6 +55,7 @@ module "malicious_instance" {
   instance_type             = "t2.micro"
   key_pair_name             = "${var.key_pair_name}"
   permissions_boundary_arn  = "${var.permissions_boundary_arn}"
+  target_sg                 = "${aws_security_group.malicious_instance.id}"
 
   #depends_on = ["module.app_server_linux", "module.app_server_windows"]
 }
@@ -70,6 +71,7 @@ module "app_server_linux" {
   vpc_id                   = "${var.vpc_id}"
   cidr_block               = "${var.cidr_block}"
   permissions_boundary_arn = "${var.permissions_boundary_arn}"
+  target_sg                = "${aws_security_group.linux_app_server.id}"
 }
 
 module "app_server_windows" {
@@ -81,4 +83,5 @@ module "app_server_windows" {
   vpc_id                    = "${var.vpc_id}"
   cidr_block                = "${var.cidr_block}"
   permissions_boundary_arn  = "${var.permissions_boundary_arn}"
+  target_sg                 = "${aws_security_group.windows_app_server.id}"
 }
