@@ -32,7 +32,6 @@ cidr_block = "172.31.0.0/16"
 ## all submodules
 region = "us-east-1"
 project_name = "guardduty-demo"
-environment = "guardduty-demo"
 permissions_boundary_arn = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
 
 tags = {

@@ -3,23 +3,22 @@ resource "aws_guardduty_detector" "this" {
   finding_publishing_frequency = "FIFTEEN_MINUTES"
 }
 
-#resource "aws_s3_bucket" "this" {
-#  acl    = "private"
-#  bucket = "${var.project_name}-ipset"
-#}
-#
-#resource "aws_s3_bucket_object" "this" {
-#  acl     = "public-read"
-#  content = "10.0.0.0/8\n"
-#  bucket  = "${aws_s3_bucket.this.id}"
-#  key     = "MyThreatIntelSet"
-#}
-#
-#resource "aws_guardduty_threatintelset" "this" {
-#  activate    = true
-#  detector_id = "${aws_guardduty_detector.this.id}"
-#  format      = "TXT"
-#  location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
-#  name        = "MyThreatIntelSet"
-#}
+resource "aws_s3_bucket" "this" {
+  acl    = "private"
+  bucket = "GuardDutyDemo-ipset"
+}
 
+resource "aws_s3_bucket_object" "this" {
+  acl     = "public-read"
+  content = "${aws_instance.compromised.public_ip}\n${aws_instance.compromised.private_ip}\n"
+  bucket  = "${aws_s3_bucket.this.id}"
+  key     = "MyThreatIntelSet"
+}
+
+resource "aws_guardduty_threatintelset" "this" {
+  activate    = true
+  detector_id = "${aws_guardduty_detector.this.id}"
+  format      = "TXT"
+  location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
+  name        = "MyThreatIntelSet"
+}

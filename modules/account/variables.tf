@@ -10,12 +10,6 @@ variable "tags" {
   default     = {}
 }
 
-variable "environment" {
-  type        = "string"
-  description = "Resource name prefix"
-  default     = ""
-}
-
 variable "table_name" {
   type = "string"
 }

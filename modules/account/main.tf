@@ -14,6 +14,10 @@ module "cloudtrail" {
   project_name      = "${var.project_name}"
 }
 
+module "guard_duty" {
+  source = "modules/guard_duty"
+}
+
 module "vpc_flow_logs" {
   source = "modules/vpc_flow_logs"
 
@@ -43,6 +47,7 @@ module "malicious_iam_user" {
 module "malicious_instance" {
   source = "modules/simulations/malicious_instance"
 
+  tags                      = "${var.tags}"
   project_name              = "${var.project_name}"
   create_malicious_instance = "${var.create_malicious_instance}"
   instance_type             = "t2.micro"
@@ -55,6 +60,7 @@ module "malicious_instance" {
 module "app_server_linux" {
   source = "modules/simulations/app_server_linux"
 
+  tags                     = "${var.tags}"
   project_name             = "${var.project_name}"
   create_app_server_linux  = "${var.create_app_server_linux}"
   instance_type            = "t2.micro"
@@ -67,6 +73,7 @@ module "app_server_linux" {
 module "app_server_windows" {
   source = "modules/simulations/app_server_windows"
 
+  tags                      = "${var.tags}"
   project_name              = "${var.project_name}"
   create_app_server_windows = "${var.create_app_server_windows}"
   instance_type             = "t2.micro"
