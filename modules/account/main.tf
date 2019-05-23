@@ -16,6 +16,8 @@ module "cloudtrail" {
 
 module "guard_duty" {
   source = "modules/guard_duty"
+
+  cidr_block = "${var.cidr_block}"
 }
 
 module "vpc_flow_logs" {
@@ -80,10 +82,3 @@ module "app_server_windows" {
   cidr_block                = "${var.cidr_block}"
   permissions_boundary_arn  = "${var.permissions_boundary_arn}"
 }
-
-#module "guard_duty" {
-#  source = "modules/guard_duty"
-#
-#  project_name = "${var.project_name}"
-#}
-

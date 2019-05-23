@@ -26,7 +26,7 @@ create_cloudtrail         = true
 create_vpc_flow_logs      = true
 
 vpc_id        = "vpc-9241cef5"
-key_pair_name = "gowens-intern"
+key_pair_name = "tcm-interns"
 cidr_block = "172.31.0.0/16"
 
 ## all submodules
