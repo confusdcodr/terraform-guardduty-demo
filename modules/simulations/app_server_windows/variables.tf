@@ -1,3 +1,8 @@
+variable "tags" {
+  description = "Map of tags to apply to resources"
+  default     = {}
+}
+
 variable "create_app_server_windows" {
   description = "boolean that controls the creation of the malicious instance"
   default     = false

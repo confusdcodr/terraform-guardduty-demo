@@ -1,7 +1,5 @@
 locals {
-  tags = {
-    Description = "Windows App Server for use with Guard Duty testing"
-  }
+  tags = "${merge(var.tags, map("Description", "Windows App Server for use with Guard Duty testing"))}"
 }
 
 # Create IAM Role

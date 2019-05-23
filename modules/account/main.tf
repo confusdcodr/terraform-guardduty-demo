@@ -74,7 +74,6 @@ module "app_server_windows" {
   source = "modules/simulations/app_server_windows"
 
   tags                      = "${var.tags}"
-  project_name              = "${var.project_name}"
   create_app_server_windows = "${var.create_app_server_windows}"
   instance_type             = "t2.micro"
   vpc_id                    = "${var.vpc_id}"

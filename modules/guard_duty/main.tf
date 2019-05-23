@@ -10,9 +10,11 @@ resource "aws_s3_bucket" "this" {
 
 resource "aws_s3_bucket_object" "this" {
   acl     = "public-read"
-  content = "${aws_instance.compromised.public_ip}\n${aws_instance.compromised.private_ip}\n"
-  bucket  = "${aws_s3_bucket.this.id}"
-  key     = "MyThreatIntelSet"
+  content = "test"
+
+  # content = "${aws_instance.compromised.public_ip}\n${aws_instance.compromised.private_ip}\n"
+  bucket = "${aws_s3_bucket.this.id}"
+  key    = "MyThreatIntelSet"
 }
 
 resource "aws_guardduty_threatintelset" "this" {

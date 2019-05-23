@@ -5,9 +5,7 @@ locals {
   key_pair_name           = "${ local.key_pair_specified ? local.generated_key_pair_name : var.key_pair_name }"
   key_pair_path           = "${path.module}/generated"
 
-  tags = {
-    Description = "Linux App Server for use with Guard Duty testing"
-  }
+  tags = "${merge(var.tags, map("Description", "Linux App Server for use with Guard Duty testing"))}"
 }
 
 resource "tls_private_key" "this" {
