@@ -64,6 +64,8 @@ ln -s /usr/local/bin/xfreerdp /usr/bin/xfreerdp
 echo "FreeRDP installed"
 
 # install crowbar
+sudo yum install -y epel-release
+sudo yum install -y python36 python36-pip
 cd /home/ec2-user
 git clone https://github.com/galkan/crowbar $BIN_DIR/crowbar
 chown -R ec2-user: /home/ec2-user
