@@ -29,12 +29,10 @@ for FILE in {1..20}; do cp $KEY_PATH/compromised.pem $KEY_PATH/compromised$FILE.
 echo "Compromised ssh keys generated"
 
 # get IP addresses of targets
-$IP_SCRIPT_PATH=/home/ec2-user/scripts/localIps.sh
+IP_SCRIPT_PATH=/home/ec2-user/scripts/localIps.sh
 echo "BASIC_LINUX_TARGET=$BasicLinuxTarget_PrivateIp" >> $IP_SCRIPT_PATH
-echo "BASIC_WINDOWS_TARGET=$BasicWindowsTarget_PrivateIp" >> $IP_SCRIPT_PATH
-echo -n "RED_TEAM_IP=" >> $IP_SCRIPT_PATH
-wget -q -O - http://169.254.169.254/latest/meta-data/local-ipv4 >> $IP_SCRIPT_PATH
-echo '' >> /home/ec2-user/localIps.sh
+echo -n "BASIC_WINDOWS_TARGET=$BasicWindowsTarget_PrivateIp" >> $IP_SCRIPT_PATH
+echo -n "RED_TEAM_IP=$(wget -q -O - http://169.254.169.254/latest/meta-data/local-ipv4)" >> $IP_SCRIPT_PATH
 echo "IP addresses of targets captured"
 
 # get instance-ids of targets
@@ -42,7 +40,7 @@ echo "BASIC_LINUX_INSTANCE=$BasicLinuxTarget" >> $IP_SCRIPT_PATH
 echo "BASIC_WINDOWS_INSTANCE=$BasicWindowsTarget" >> $IP_SCRIPT_PATH
 echo  -n "RED_TEAM_INSTANCE=" >> $IP_SCRIPT_PATH
 wget -q -O - http://169.254.169.254/latest/meta-data/instance-id >> $IP_SCRIPT_PATH
-echo '' >> /home/ec2-user/localIps.sh
+echo '' >> $IP_SCRIPT_PATH
 echo "Instance IDs of targets captured"
 
 # install hydra

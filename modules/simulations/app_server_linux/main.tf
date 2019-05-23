@@ -87,7 +87,7 @@ resource "aws_instance" "this" {
   key_name               = "${local.key_pair_name}"
   vpc_security_group_ids = ["${var.target_sg}"]
 
-  tags = "${merge(local.tags, map("Name", "Linux App Server"))}"
+  tags = "${merge(local.tags, map("Name", "Linux App Server", "Type", "App Server Linux"))}"
 }
 
 data "aws_region" "current" {}

@@ -48,7 +48,7 @@ resource "aws_instance" "this" {
   iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
   vpc_security_group_ids = ["${var.target_sg}"]
 
-  tags = "${merge(local.tags, map("Name", "Windows App Server"))}"
+  tags = "${merge(local.tags, map("Name", "Windows App Server", "Type", "App Server Windows"))}"
 }
 
 data "aws_region" "current" {}
