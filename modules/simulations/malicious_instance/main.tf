@@ -77,43 +77,6 @@ resource "aws_iam_policy_attachment" "this" {
   policy_arn = "${aws_iam_policy.this.arn}"
 }
 
-# create the instance
-resource "aws_instance" "compromised" {
-  count = "${var.create_malicious_instance ? 1 : 0 }"
-
-  ami                  = "${data.aws_ami.amazon_linux.id}"
-  instance_type        = "${var.instance_type}"
-  private_ip           = "${var.private_ip}"
-  user_data            = "${data.template_file.userdata.rendered}"
-  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
-  key_name             = "${local.key_pair_name}"
-
-  tags = "${merge(local.tags, map("Name", "Malicious Instance"))}"
-}
-
-resource "aws_guardduty_detector" "this" {
-  enable                       = true
-  finding_publishing_frequency = "FIFTEEN_MINUTES"
-}
-resource "aws_s3_bucket" "this" {
-  acl    = "private"
-  bucket = "${var.project_name}-ipset"
-}
-
-resource "aws_s3_bucket_object" "this" {
-  acl     = "public-read"
-  content = "${aws_instance.compromised.public_ip}\n${aws_instance.compromised.private_ip}\n"
-  bucket  = "${aws_s3_bucket.this.id}"
-  key     = "MyThreatIntelSet"
-}
-
-resource "aws_guardduty_threatintelset" "this" {
-  activate    = true
-  detector_id = "${aws_guardduty_detector.this.id}"
-  format      = "TXT"
-  location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
-  name        = "MyThreatIntelSet"
-}
 data "aws_region" "current" {}
 
 # get the latest amazon linux AMI
@@ -167,4 +130,19 @@ data "aws_iam_policy_document" "policy" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
   source_json = "${data.template_file.policy.rendered}"
+}
+
+# create the instance
+resource "aws_instance" "compromised" {
+  count = "${var.create_malicious_instance ? 1 : 0 }"
+
+  ami                    = "${data.aws_ami.amazon_linux.id}"
+  instance_type          = "${var.instance_type}"
+  private_ip             = "${var.private_ip}"
+  user_data              = "${data.template_file.userdata.rendered}"
+  iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
+  key_name               = "${local.key_pair_name}"
+  vpc_security_group_ids = ["${var.target_sg}"]
+
+  tags = "${merge(local.tags, map("Name", "Malicious Instance"))}"
 }

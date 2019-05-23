@@ -6,3 +6,8 @@ variable "create_malicious_user" {
 variable "project_name" {
   type = "string"
 }
+
+variable "tags" {
+  description = "Map of tags to apply to resources"
+  default     = {}
+}

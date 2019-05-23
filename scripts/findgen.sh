@@ -8,7 +8,26 @@
 
 #!/bin/bash -e
 
-source ./*.sh
+HOME_DIR=/home/ec2-user
+ARTIFACTS_DIR=$HOME_DIR/artifacts
+SCRIPTS_DIR=$HOME_DIR/scripts
+SCRIPT_NAME=$(basename $BASH_SOURCE)
+
+# find "$SCRIPTS_DIR" -name "*.sh" | while read file; do
+#     FILE_BASE=$(basename $file)
+#     if [[ ! "$FILE_BASE" == "$SCRIPT_NAME" ]]; then
+#       echo "Importing: $file"
+#       source "$file"
+#     fi
+#   done
+
+source ./backdoor.sh
+source ./crypto.sh
+source ./dns_exfil.sh
+source ./localIps.sh
+source ./rdp_bruteforce.sh
+source ./recon.sh
+source ./ssh_bruteforce.sh
 
 VULN_LIST=(
   "BACKDOOR"
@@ -18,8 +37,6 @@ VULN_LIST=(
   "RECON"
   "SSH"
 )
-
-ARTIFACTS_DIR=/home/ec2-user/artifacts
 
 # https://stackoverflow.com/a/8574392/4254278
 

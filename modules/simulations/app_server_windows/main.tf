@@ -1,7 +1,5 @@
 locals {
-  tags = {
-    Description = "App Server Windows"
-  }
+  tags = "${merge(var.tags, map("Description", "Windows App Server for use with Guard Duty testing"))}"
 }
 
 # Create IAM Role
@@ -14,7 +12,7 @@ resource "aws_iam_role" "this" {
   force_detach_policies = true
   max_session_duration  = "43200"
   tags                  = "${local.tags}"
-  permissions_boundary  = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  permissions_boundary  = "${var.permissions_boundary_arn}"
 }
 
 # Create IAM Policy
@@ -40,38 +38,17 @@ resource "aws_iam_policy_attachment" "this" {
   policy_arn = "${aws_iam_policy.this.arn}"
 }
 
-resource "aws_security_group" "this" {
-  description = "Allow inbound traffic"
-  vpc_id      = "${var.vpc_id}"
-
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["${var.cidr_block}"]
-  }
-}
-
 # create the instance
 resource "aws_instance" "this" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  ami                  = "${data.aws_ami.this.id}"
-  instance_type        = "${var.instance_type}"
-  private_ip           = "${var.private_ip}"
-  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
-  vpc_security_group_ids = ["${aws_security_group.this.id}"]
+  ami                    = "${data.aws_ami.this.id}"
+  instance_type          = "${var.instance_type}"
+  private_ip             = "${var.private_ip}"
+  iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
+  vpc_security_group_ids = ["${var.target_sg}"]
 
-  tags = {
-    Type = "App Server Windows"
-  }
+  tags = "${merge(local.tags, map("Name", "Windows App Server", "Type", "App Server Windows"))}"
 }
 
 data "aws_region" "current" {}
@@ -95,14 +72,14 @@ data "aws_ami" "this" {
 data "template_file" "trust" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/trust.json")}"
+  template = "${file("modules/simulations/app_server_windows/iam/trust.json")}"
 }
 
 # create the instance profile
 data "template_file" "policy" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/policy.json")}"
+  template = "${file("modules/simulations/app_server_windows/iam/policy.json")}"
 }
 
 data "aws_iam_policy_document" "trust" {

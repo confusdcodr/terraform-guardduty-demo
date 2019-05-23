@@ -4,3 +4,5 @@ terraform.tfstate.backup
 .git/
 .terraform/
 .terragrunt-cache/
+
+setcreds.sh

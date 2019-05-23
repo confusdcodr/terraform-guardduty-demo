@@ -1,3 +1,8 @@
+variable "tags" {
+  description = "Map of tags to apply to resources"
+  default     = {}
+}
+
 variable "create_app_server_windows" {
   description = "boolean that controls the creation of the malicious instance"
   default     = false
@@ -14,14 +19,21 @@ variable "private_ip" {
   default     = ""
 }
 
-variable "project_name" {
-  type = "string"
-}
-
 variable "vpc_id" {
   type = "string"
 }
 
 variable "cidr_block" {
   type = "string"
+}
+
+variable "permissions_boundary_arn" {
+  type        = "string"
+  description = "ARN of the permissions boundary"
+}
+
+variable "target_sg" {
+  type        = "string"
+  description = "Target security group for the instance"
+  default     = ""
 }

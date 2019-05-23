@@ -1,7 +1,5 @@
 locals {
-  tags = {
-    Description = "Resources for guard duty finding simulation"
-  }
+  tags = "${merge(var.tags, map("Description","Malicious"))}"
 }
 
 resource "aws_iam_user" "compromised" {
@@ -9,6 +7,7 @@ resource "aws_iam_user" "compromised" {
 
   name                 = "${var.project_name}-Compromised-Simulated"
   permissions_boundary = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  tags                 = "${merge(local.tags, map("Name", "Malicious User"))}"
 }
 
 resource "aws_iam_access_key" "compromised" {

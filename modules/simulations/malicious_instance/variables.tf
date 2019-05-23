@@ -50,3 +50,9 @@ variable "permissions_boundary_arn" {
   type        = "string"
   description = "ARN of the permissions boundary"
 }
+
+variable "target_sg" {
+  type        = "string"
+  description = "Target security group for the instance"
+  default     = ""
+}
