@@ -13,11 +13,10 @@
 
 #!/bin/bash
 
-# load IP addresses created by templates
-source localIps.sh
+function dns_exfil {
 
-# simulate external recon
-#echo 'External port probe on a temporarily unprotected port'
+QUERY_LIST_PATH=$1/domains
+if [[ -d "$QUERY_LIST_PATH" ]]; then 
 # 5 - DNS Exfiltation
 echo '***********************************************************************'
 echo '* Test #5 - DNS Exfiltration                                          *'
@@ -29,7 +28,13 @@ echo '* detection.                                                          *'
 echo '***********************************************************************'
 echo
 echo "Calling large numbers of large domains to simulate tunneling via DNS"
-dig -f ./domains/queries.txt > /dev/null &
+dig -f $QUERY_LIST_PATH/queries.txt > /dev/null &
 echo 'Test 5: DNS Exfiltration'
 echo 'Expected Finding: EC2 instance ' $RED_TEAM_INSTANCE ' is attempting to query domain names that resemble exfiltrated data'
 echo 'Finding Type : Backdoor:EC2/DNSDataExfiltration'
+
+else
+  echo "ERROR: required file "$QUERY_LIST_PATH"/queries.txt does not exist"
+fi
+
+}

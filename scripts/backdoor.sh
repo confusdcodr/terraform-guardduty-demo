@@ -13,8 +13,10 @@
 
 #!/bin/bash
 
+function backdoor {
+
 # load IP addresses created by templates
-source localIps.sh
+
 echo
 # 6 - Backdoor:EC2/C&CActivity.B!DNS
 echo '***********************************************************************'
@@ -34,3 +36,5 @@ echo 'Test 6: C&C Activity'
 echo 'Expected Finding: EC2 instance ' $RED_TEAM_INSTANCE ' is querying a domain name associated with a known Command & Control server. '
 echo 'Finding Type : Backdoor:EC2/C&CActivity.B!DNS'
 echo
+
+}

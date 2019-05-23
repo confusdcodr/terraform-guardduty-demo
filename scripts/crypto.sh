@@ -13,8 +13,7 @@
 
 #!/bin/bash
 
-# load IP addresses created by templates
-source localIps.sh
+function crypto {
 
 # 4 - CryptoCurrency Activity
 echo '***********************************************************************'
@@ -34,3 +33,5 @@ echo 'Test 4: Cryptocurrency Activity'
 echo 'Expected Finding: EC2 Instance ' $RED_TEAM_INSTANCE ' is querying a domain name that is associated with bitcoin activity'
 echo 'Finding Type : CryptoCurrency:EC2/BitcoinTool.B!DNS'
 echo
+
+}

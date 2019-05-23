@@ -13,11 +13,10 @@
 
 #!/bin/bash
 
-# load IP addresses created by templates
-source localIps.sh
+function recon {
 
 # simulate external recon
-#echo 'External port probe on a temporarily unprotected port'
+echo 'External port probe on a temporarily unprotected port'
 
 # 1 - simulate internal recon and attempted lateral movement
 echo
@@ -39,3 +38,5 @@ echo
 echo 'Test 1: Internal Port Scanning'
 echo 'Expected Finding: EC2 Instance ' $RED_TEAM_INSTANCE ' is performing outbound port scans against remote host.' $BASIC_LINUX_TARGET
 echo 'Finding Type: Recon:EC2/Portscan'
+
+}
