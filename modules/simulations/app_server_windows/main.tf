@@ -14,7 +14,7 @@ resource "aws_iam_role" "this" {
   force_detach_policies = true
   max_session_duration  = "43200"
   tags                  = "${local.tags}"
-  permissions_boundary  = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  permissions_boundary  = "${var.permissions_boundary_arn}"
 }
 
 # Create IAM Policy
@@ -63,10 +63,10 @@ resource "aws_security_group" "this" {
 resource "aws_instance" "this" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  ami                  = "${data.aws_ami.this.id}"
-  instance_type        = "${var.instance_type}"
-  private_ip           = "${var.private_ip}"
-  iam_instance_profile = "${aws_iam_instance_profile.this.name}"
+  ami                    = "${data.aws_ami.this.id}"
+  instance_type          = "${var.instance_type}"
+  private_ip             = "${var.private_ip}"
+  iam_instance_profile   = "${aws_iam_instance_profile.this.name}"
   vpc_security_group_ids = ["${aws_security_group.this.id}"]
 
   tags = {
@@ -95,14 +95,14 @@ data "aws_ami" "this" {
 data "template_file" "trust" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/trust.json")}"
+  template = "${file("modules/simulations/app_server_windows/iam/trust.json")}"
 }
 
 # create the instance profile
 data "template_file" "policy" {
   count = "${var.create_app_server_windows? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/policy.json")}"
+  template = "${file("modules/simulations/app_server_windows/iam/policy.json")}"
 }
 
 data "aws_iam_policy_document" "trust" {

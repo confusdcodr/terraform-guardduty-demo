@@ -22,3 +22,4 @@ resource "aws_guardduty_detector" "this" {
 #  location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
 #  name        = "MyThreatIntelSet"
 #}
+

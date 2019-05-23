@@ -95,6 +95,7 @@ resource "aws_guardduty_detector" "this" {
   enable                       = true
   finding_publishing_frequency = "FIFTEEN_MINUTES"
 }
+
 resource "aws_s3_bucket" "this" {
   acl    = "private"
   bucket = "${var.project_name}-ipset"
@@ -114,6 +115,7 @@ resource "aws_guardduty_threatintelset" "this" {
   location    = "https://s3.amazonaws.com/${aws_s3_bucket_object.this.bucket}/${aws_s3_bucket_object.this.key}"
   name        = "MyThreatIntelSet"
 }
+
 data "aws_region" "current" {}
 
 # get the latest amazon linux AMI

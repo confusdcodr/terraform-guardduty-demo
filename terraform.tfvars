@@ -18,10 +18,22 @@ terragrunt = {
   }
 }
 
+create_malicious_user     = true
+create_malicious_instance = true
+create_app_server_windows = true
+create_app_server_linux   = true
+create_cloudtrail         = true
+create_vpc_flow_logs      = true
+
+vpc_id        = "vpc-9241cef5"
+key_pair_name = "gowens-intern"
+cidr_block = "172.31.0.0/16"
+
 ## all submodules
 region = "us-east-1"
 project_name = "guardduty-demo"
 environment = "guardduty-demo"
+permissions_boundary_arn = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
 
 tags = {
   Project  = "Guardduty Demo"
@@ -29,6 +41,7 @@ tags = {
 }
 
 ## remediation_db module
+create_exceptions_table   = true
 table_name = "ir_exceptions"
 
 db_attributes = [
@@ -42,5 +55,3 @@ db_attributes = [
   },
 ]
 
-## malicious instance
-permissions_boundary_arn = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"

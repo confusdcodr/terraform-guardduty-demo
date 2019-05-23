@@ -42,3 +42,8 @@ variable "vpc_id" {
 variable "cidr_block" {
   type = "string"
 }
+
+variable "permissions_boundary_arn" {
+  type        = "string"
+  description = "ARN of the permissions boundary"
+}

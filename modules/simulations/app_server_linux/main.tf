@@ -51,7 +51,7 @@ resource "aws_iam_role" "this" {
   force_detach_policies = true
   max_session_duration  = "43200"
   tags                  = "${local.tags}"
-  permissions_boundary  = "arn:aws:iam::568850148716:policy/P3PowerUserAccess"
+  permissions_boundary  = "${var.permissions_boundary_arn}"
 }
 
 # Create IAM Policy
@@ -158,19 +158,19 @@ data "aws_ami" "amazon_linux" {
 data "template_file" "trust" {
   count = "${var.create_app_server_linux? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/trust.json")}"
+  template = "${file("modules/simulations/app_server_linux/iam/trust.json")}"
 }
 
 # create the instance profile
 data "template_file" "policy" {
   count = "${var.create_app_server_linux? 1 : 0 }"
 
-  template = "${file("modules/simulations/app_server/iam/policy.json")}"
+  template = "${file("modules/simulations/app_server_linux/iam/policy.json")}"
 }
 
 # format the instance userdata
 data "template_file" "userdata" {
-  template = "${file("modules/simulations/app_server/user_data.tpl")}"
+  template = "${file("modules/simulations/app_server_linux/user_data.tpl")}"
 
   vars = {
     target_region = "${data.aws_region.current.name}"
