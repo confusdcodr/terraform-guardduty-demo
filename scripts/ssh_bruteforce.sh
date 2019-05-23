@@ -13,8 +13,11 @@
 
 #!/bin/bash
 
-# load IP addresses created by templates
-source localIps.sh
+function ssh_bruteforce {
+
+KEYS_PATH=$1/compromised_keys
+
+if [[ -d "$KEYS_PATH" ]]; then 
 
 # simulate external recon
 #echo 'External port probe on a temporarily unprotected port'
@@ -32,7 +35,7 @@ echo '***********************************************************************'
 echo
 for j in `seq 1 10`;
 do
-	sudo ./crowbar/crowbar.py -b sshkey -s $BASIC_LINUX_TARGET/32 -u ec2-user -k ./compromised_keys;
+	sudo ./crowbar/crowbar.py -b sshkey -s $BASIC_LINUX_TARGET/32 -u ec2-user -k $KEYS_PATH;
 done
 echo
 echo '-----------------------------------------------------------------------'
@@ -43,3 +46,9 @@ echo 'Outbound: ' $RED_TEAM_INSTANCE ' is performing SSH brute force attacks aga
 echo 'Inbound: ' $RED_TEAM_IP ' is performing SSH brute force attacks against ' $BASIC_LINUX_INSTANCE
 echo 'Finding Type: UnauthorizedAccess:EC2/SSHBruteForce'
 echo
+
+else
+  echo "ERROR: required dir "$KEYS_PATH" does not exist"
+fi
+
+}

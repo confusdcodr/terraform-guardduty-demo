@@ -1,0 +1,6 @@
+#!/bin/bash
+# contents of the script are auto-generated
+
+BASIC_LINUX_INSTANCE=DEFAULT
+BASIC_WINDOWS_INSTANCE=DEFAULT
+RED_TEAM_INSTANCE=DEFAULT
