@@ -11,7 +11,9 @@
 HOME_DIR=/home/ec2-user
 ARTIFACTS_DIR=$HOME_DIR/artifacts
 SCRIPTS_DIR=$HOME_DIR/scripts
+CROWBAR_DIR=$HOME_DIR/.local/bin/crowbar
 SCRIPT_NAME=$(basename $BASH_SOURCE)
+
 
 # find "$SCRIPTS_DIR" -name "*.sh" | while read file; do
 #     FILE_BASE=$(basename $file)
@@ -99,7 +101,7 @@ if ( containsElement "$VULN" "${VULN_LIST[@]}" ); then
   elif [[ "$VULN" == "RECON" ]]; then
     recon
   elif [[ "$VULN" == "SSH" ]]; then
-    ssh_bruteforce "$ARTIFACTS_DIR"
+    ssh_bruteforce "$ARTIFACTS_DIR" "$CROWBAR_DIR"
   fi
 else
 	echo "Specified finding script $VULN does not exist"

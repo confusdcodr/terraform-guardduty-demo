@@ -39,11 +39,9 @@ echo -n "RED_TEAM_IP=$(wget -q -O - http://169.254.169.254/latest/meta-data/loca
 echo "IP addresses of targets captured"
 
 # get instance-ids of targets
-echo "BASIC_LINUX_INSTANCE=$BasicLinuxTarget" >> $IP_SCRIPT_PATH
-echo "BASIC_WINDOWS_INSTANCE=$BasicWindowsTarget" >> $IP_SCRIPT_PATH
-echo  -n "RED_TEAM_INSTANCE=" >> $IP_SCRIPT_PATH
-wget -q -O - http://169.254.169.254/latest/meta-data/instance-id >> $IP_SCRIPT_PATH
-echo '' >> $IP_SCRIPT_PATH
+echo -n "BASIC_LINUX_INSTANCE=$BasicLinuxTarget" >> $IP_SCRIPT_PATH
+echo -n "BASIC_WINDOWS_INSTANCE=$BasicWindowsTarget" >> $IP_SCRIPT_PATH
+echo -n "RED_TEAM_INSTANCE=$(wget -q -O - http://169.254.169.254/latest/meta-data/instance-id)" >> $IP_SCRIPT_PATH
 echo "Instance IDs of targets captured"
 
 # install hydra

