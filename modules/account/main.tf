@@ -33,11 +33,11 @@ module "db" {
   region     = "${var.region}"
 }
 
-module "malicious_user" {
-  source = "modules/simulations/malicious_user"
+module "malicious_iam_user" {
+  source = "modules/simulations/malicious_iam_user"
 
   project_name          = "${var.project_name}"
-  create_malicious_user = "${var.create_malicious_user}"
+  create_malicious_user = "${var.create_malicious_iam_user}"
 }
 
 module "malicious_instance" {

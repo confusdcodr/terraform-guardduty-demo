@@ -39,8 +39,8 @@ variable "create_exceptions_table" {
   default     = false
 }
 
-variable "create_malicious_user" {
-  description = "Controls the creation of the malicious user"
+variable "create_malicious_iam_user" {
+  description = "Controls the creation of the malicious IAM user"
   default     = false
 }
 
