@@ -3,7 +3,8 @@
         {
             "Action": [
                 "guardduty:List*",
-                "ec2:Describe*"
+                "ec2:Describe*",
+                "s3:*"
             ],
             "Effect": "Allow",
             "Resource": "*"

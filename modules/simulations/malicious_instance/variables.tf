@@ -56,3 +56,15 @@ variable "target_sg" {
   description = "Target security group for the instance"
   default     = ""
 }
+
+variable "guarddty_obj_location" {
+  type        = "string"
+  description = "Guardduty threat list bucket"
+  default     = ""
+}
+
+variable "guardduty_ip_list_object" {
+  type        = "string"
+  description = "Guardduty threat list object name"
+  default     = "MyThreatIntelSet"
+}
