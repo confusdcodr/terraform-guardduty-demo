@@ -116,7 +116,9 @@ data "template_file" "userdata" {
   template = "${file("modules/simulations/malicious_instance/user_data.tpl")}"
 
   vars = {
-    target_region = "${data.aws_region.current.name}"
+    target_region            = "${data.aws_region.current.name}"
+    guarddty_obj_location    = "${var.guarddty_obj_location}"
+    guardduty_ip_list_object = "${var.guardduty_ip_list_object }"
   }
 }
 
