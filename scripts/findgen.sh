@@ -102,6 +102,13 @@ if ( containsElement "$VULN" "${VULN_LIST[@]}" ); then
     recon
   elif [[ "$VULN" == "SSH" ]]; then
     ssh_bruteforce "$ARTIFACTS_DIR" "$CROWBAR_DIR"
+  elif [[ "$VULN" == "ALL" ]]; then
+    backdoor
+    crypto
+    dns_exfil "$ARTIFACTS_DIR"
+    rdp_bruteforce "$ARTIFACTS_DIR"
+    recon
+    ssh_bruteforce "$ARTIFACTS_DIR" "$CROWBAR_DIR"
   fi
 else
 	echo "Specified finding script $VULN does not exist"
