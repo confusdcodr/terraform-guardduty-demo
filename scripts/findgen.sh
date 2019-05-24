@@ -38,6 +38,7 @@ VULN_LIST=(
   "RDP"
   "RECON"
   "SSH"
+  "ALL"
 )
 
 # https://stackoverflow.com/a/8574392/4254278
