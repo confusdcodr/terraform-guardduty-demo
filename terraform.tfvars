@@ -26,8 +26,9 @@ create_cloudtrail         = true
 create_vpc_flow_logs      = true
 
 vpc_id        = "vpc-9241cef5"
-key_pair_name = "tcm-interns"
+key_pair_name = "gowens-intern"
 cidr_block = "172.31.0.0/16"
+subnet_ids = ["subnet-3e949303", "subnet-90f26b9c"]
 
 ## all submodules
 region = "us-east-1"

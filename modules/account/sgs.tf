@@ -98,10 +98,39 @@ resource "aws_security_group" "malicious_instance" {
     security_groups = ["${data.aws_security_group.default.id}"]
   }
 
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    cidr_blocks     = ["${var.cidr_block}", "${local.caller_public_ip}"]
+    security_groups = ["${aws_security_group.malicious_elb.id}", "${data.aws_security_group.default.id}"]
+  }
+
   egress {
     from_port   = 0
     to_port     = 0
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+# malicious instance elb
+resource "aws_security_group" "malicious_elb" {
+  description = "Allow inbound traffic"
+  vpc_id      = "${var.vpc_id}"
+  tags        = "${merge(var.tags, map("Name", "Malicious Instance ELB"))}"
+
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["${var.cidr_block}", "${local.caller_public_ip}"]
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["${var.cidr_block}"]
   }
 }

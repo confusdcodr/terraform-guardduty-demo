@@ -14,32 +14,15 @@ variable "key_pair_name" {
   default     = ""
 }
 
-variable "write_private_key" {
-  description = "Boolean to control saving of the generated private ssh key to disk."
-  default     = false
-}
-
-variable "environment" {
-  description = "A name that identifies the environment, will used as a name prefix and for tagging."
-  default     = ""
-  type        = "string"
-}
-
 variable "instance_type" {
   type    = "string"
   default = "t2.micro"
 }
 
-variable "private_ip" {
-  type        = "string"
-  description = "Private IP address to associate with the instance"
-  default     = ""
-}
-
-variable "security_group_id" {
-  type        = "string"
-  description = "target security group for the compromised instance"
-  default     = ""
+variable "subnet_ids" {
+  type        = "list"
+  description = "Target subnets for ASG"
+  default     = []
 }
 
 variable "project_name" {
@@ -54,6 +37,12 @@ variable "permissions_boundary_arn" {
 variable "target_sg" {
   type        = "string"
   description = "Target security group for the instance"
+  default     = ""
+}
+
+variable "elb_sg" {
+  type        = "string"
+  description = "Target security group for the elb"
   default     = ""
 }
 

@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# install and setup apache
+sudo yum -y install httpd
+sudo service httpd start 
+sudo chkconfig httpd on
+echo "<!doctype html>" > /var/www/html/index.html
+echo "<html>" >> /var/www/html/index.html
+echo "  <head>" >> /var/www/html/index.html
+echo "    <title>This is the title of the webpage!</title>" >> /var/www/html/index.html
+echo "  </head>" >> /var/www/html/index.html
+echo "  <body>" >> /var/www/html/index.html
+echo "    <p>This is an example paragraph</p>" >> /var/www/html/index.html
+echo "  </body>" >> /var/www/html/index.html
+echo "</html>" >> /var/www/html/index.html
+sudo chown -R apache:apache /var/wwww/
+
 # configure path
 export PATH=$PATH:/usr/local/bin:/usr/sbin:/root/.local/bin:/.local/bin
 echo 'export PATH=/root/.local/bin:/usr/sbin:/.local/bin:$PATH' >> /home/ec2-user/.profile
@@ -82,4 +97,5 @@ chmod +x $BIN_DIR/crowbar/crowbar.py
 echo "Crowbar installed"
 
 # generate all findings
-./scripts/findgen.sh -v ALL
+cd scripts/
+./findgen.sh -v ALL

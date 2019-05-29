@@ -89,10 +89,10 @@ module "malicious_instance" {
   key_pair_name             = "${var.key_pair_name}"
   permissions_boundary_arn  = "${var.permissions_boundary_arn}"
   target_sg                 = "${aws_security_group.malicious_instance.id}"
+  elb_sg                    = "${aws_security_group.malicious_elb.id}"
   guarddty_obj_location     = "${aws_s3_bucket_object.this.bucket}"
   guardduty_ip_list_object  = "${aws_s3_bucket_object.this.key}"
-
-  #depends_on = ["module.app_server_linux", "module.app_server_windows"]
+  subnet_ids                = "${var.subnet_ids}"
 }
 
 module "app_server_linux" {
