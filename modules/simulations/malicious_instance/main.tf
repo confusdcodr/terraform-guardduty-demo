@@ -140,6 +140,10 @@ resource "aws_autoscaling_group" "this" {
   lifecycle {
     create_before_destroy = true
   }
+
+  tags = ["${concat(
+      list(map("key", "Name", "value", "Malicious Instance", "propagate_at_launch", true))
+   )}"]
 }
 
 resource "aws_elb" "this" {
