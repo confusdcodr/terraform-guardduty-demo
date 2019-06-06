@@ -1,19 +1,21 @@
 #!/bin/bash
 
 # install and setup apache
-sudo yum -y install httpd
-sudo service httpd start 
-sudo chkconfig httpd on
-echo "<!doctype html>" > /var/www/html/index.html
-echo "<html>" >> /var/www/html/index.html
-echo "  <head>" >> /var/www/html/index.html
-echo "    <title>This is the title of the webpage!</title>" >> /var/www/html/index.html
-echo "  </head>" >> /var/www/html/index.html
-echo "  <body>" >> /var/www/html/index.html
-echo "    <p>This is an example paragraph</p>" >> /var/www/html/index.html
-echo "  </body>" >> /var/www/html/index.html
-echo "</html>" >> /var/www/html/index.html
-sudo chown -R apache:apache /var/wwww/
+yum -y install httpd
+service httpd start 
+chkconfig httpd on
+cat << EOF > /var/www/html/index.html
+<!doctype html>
+<html>
+  <head>
+    <title>This is the title of the webpage!</title>
+  </head>
+  <body>
+    <p>This is an example paragraph</p>
+  </body>
+</html>
+EOF
+chown -R apache:apache /var/wwww/
 
 # configure path
 export PATH=$PATH:/usr/local/bin:/usr/sbin:/root/.local/bin:/.local/bin
@@ -86,16 +88,28 @@ ln -s /usr/local/bin/xfreerdp /usr/bin/xfreerdp
 echo "FreeRDP installed"
 
 # install crowbar
-sudo yum install -y epel-release
-sudo yum install -y python36 python36-pip
+yum install -y epel-release
+yum install -y python36 python36-pip
 cd /home/ec2-user
 git clone https://github.com/galkan/crowbar $BIN_DIR/crowbar
-chown -R ec2-user: /home/ec2-user
 
-chmod +x /home/ec2-user/scripts/*.sh
 chmod +x $BIN_DIR/crowbar/crowbar.py
 echo "Crowbar installed"
 
-# generate all findings
+# create script to run findgen via cron
+cat << EOF > /home/ec2-user/scripts/vuln_schedule.sh
+#!/bin/bash
+export PATH=/root/.local/bin:/usr/local/bin:/usr/sbin:/.local/bin:$PATH
+cd /home/ec2-user/scripts/
+./findgen.sh -v ALL
+EOF
+
+# create cron job to run vuln_schedule.sh once every 15 minutes
+crontab -l | { cat; echo "*/15 * * * * /home/ec2-user/scripts/vuln_schedule.sh"; } | crontab -
+
+chown -R ec2-user: /home/ec2-user
+chmod +x /home/ec2-user/scripts/*.sh
+
+# generate all findings once
 cd scripts/
 ./findgen.sh -v ALL
