@@ -23,11 +23,5 @@ EC2 instance
 - [ ] CI
   - [ ] add linting
   - [ ] auto-generate docs
-- [ ] convert app server to tf
 - [ ] add cloudwatch alarms and sns topics for 'spending guard'
-- [ ] convert malicious instance to tf
-  - [ ] add input vars for networking reqs
-  - [x] create iam role
-  - [x] conditionally create instance and instance profile
-  - [ ] conditionally enable ssh access/keypair creation
-  - [ ] add configurable functionality to the malicious instance
+- [ ] add misconfigured s3 bucket generation to a non-malicious instance

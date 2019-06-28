@@ -146,6 +146,32 @@ resource "aws_autoscaling_group" "this" {
    )}"]
 }
 
+resource "aws_autoscaling_schedule" "scaledown" {
+  scheduled_action_name = "afterhours-scaledown"
+  min_size              = 0
+  max_size              = 1
+  desired_capacity      = 0
+
+  # in UTC. +4 hours to EST
+  # scale down at 1900 EST every day
+  recurrence = "0 2300 * * *"
+
+  autoscaling_group_name = "${aws_autoscaling_group.this.name}"
+}
+
+resource "aws_autoscaling_schedule" "scaleup" {
+  scheduled_action_name = "workinghours-scaleup"
+  min_size              = 1
+  max_size              = 1
+  desired_capacity      = 1
+
+  # in UTC. +4 hours to EST
+  # scale up at 0700 EST every weekday
+  recurrence = "0 1100 * * 1-5"
+
+  autoscaling_group_name = "${aws_autoscaling_group.this.name}"
+}
+
 resource "aws_elb" "this" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
