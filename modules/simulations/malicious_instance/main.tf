@@ -154,7 +154,7 @@ resource "aws_autoscaling_schedule" "scaledown" {
 
   # in UTC. +4 hours to EST
   # scale down at 1900 EST every day
-  recurrence = "0 2300 * * *"
+  recurrence = "0 23 * * *"
 
   autoscaling_group_name = "${aws_autoscaling_group.this.name}"
 }
@@ -167,7 +167,7 @@ resource "aws_autoscaling_schedule" "scaleup" {
 
   # in UTC. +4 hours to EST
   # scale up at 0700 EST every weekday
-  recurrence = "0 1100 * * 1-5"
+  recurrence = "0 11 * * 1-5"
 
   autoscaling_group_name = "${aws_autoscaling_group.this.name}"
 }
