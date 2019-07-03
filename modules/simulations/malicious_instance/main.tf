@@ -131,9 +131,9 @@ resource "aws_autoscaling_group" "this" {
   count = "${var.create_malicious_instance ? 1 : 0 }"
 
   name                 = "malicious-asg"
-  min_size             = 1
-  max_size             = 1
-  desired_capacity     = 1
+  min_size             = 0
+  max_size             = 0
+  desired_capacity     = 0
   launch_configuration = "${aws_launch_configuration.this.name}"
   vpc_zone_identifier  = "${var.subnet_ids}"
 
@@ -149,7 +149,7 @@ resource "aws_autoscaling_group" "this" {
 resource "aws_autoscaling_schedule" "scaledown" {
   scheduled_action_name = "afterhours-scaledown"
   min_size              = 0
-  max_size              = 1
+  max_size              = 0
   desired_capacity      = 0
 
   # in UTC. +4 hours to EST
